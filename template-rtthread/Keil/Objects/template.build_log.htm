@@ -22,21 +22,27 @@ Dialog DLL:      TCM.DLL V1.36.1.0
  
 <h2>Project:</h2>
 D:\code\stm32\msp\template-rtthread\Keil\template.uvprojx
-Project File Date:  06/19/2023
+Project File Date:  06/20/2023
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Environment\keil\ARM\ARMCC\Bin'
-Rebuild target 'template'
-compiling aes256.c...
-compiling dma.c...
-compiling adc14.c...
-compiling comp_e.c...
-compiling cpu.c...
-compiling crc32.c...
-compiling fpu.c...
-compiling flash_a.c...
-compiling cs.c...
-compiling flash.c...
+Build target 'template'
+compiling Interrupt.c...
+..\User\Driver\Encoder.h(14): warning:  #1295-D: Deprecated declaration init_encoder_left - give arg types
+  void init_encoder_left();
+..\User\Driver\Encoder.h(15): warning:  #1295-D: Deprecated declaration init_encoder_right - give arg types
+  void init_encoder_right();
+..\User\Driver\Encoder.h(17): warning:  #1-D: last line of file ends without a newline
+  int read_encoder(uint8_t side);
+..\User\Driver\TCRT5000.h(18): warning:  #1295-D: Deprecated declaration init_TCRT - give arg types
+  void init_TCRT();
+..\User\Driver\TCRT5000.h(19): warning:  #1295-D: Deprecated declaration read_TCRT - give arg types
+  void read_TCRT();
+..\User\Driver\TCRT5000.h(21): warning:  #1-D: last line of file ends without a newline
+  #endif // !__TCRT5000.h
+..\User\Driver\Interrupt.c(227): warning:  #1-D: last line of file ends without a newline
+  }
+..\User\Driver\Interrupt.c: 7 warnings, 0 errors
 compiling main.c...
 ..\User\Driver\HC-05.h(13): warning:  #1295-D: Deprecated declaration connectDevice - give arg types
   bool connectDevice();
@@ -52,128 +58,50 @@ compiling main.c...
   void init_motor();
 ..\User\Driver\Motor.h(13): warning:  #1295-D: Deprecated declaration set_pwm_trail - give arg types
   void set_pwm_trail();
-..\User\main.c(108): warning:  #550-D: variable "connected"  was set but never used
-  	bool connected=false;
-..\User\main.c(149): warning:  #167-D: argument of type "void (*)()" is incompatible with parameter of type "void (*)(void *)"
-  	rt_timer_t EncoderTimer=rt_timer_create("EncoderTimer",sendEncoderBack,RT_NULL,100,RT_TIMER_FLAG_PERIODIC);
-..\User\main.c(220): warning:  #167-D: argument of type "void (*)()" is incompatible with parameter of type "void (*)(void *)"
-  	rt_thread_t control_thread=rt_thread_create("control",control_entry,RT_NULL,1024,25,50);
-..\User\main.c(226): warning:  #167-D: argument of type "void (*)()" is incompatible with parameter of type "void (*)(void *)"
-  	rt_thread_t display_thread=rt_thread_create("display",display_entry,RT_NULL,1024,25,50);
-..\User\main.c(73): warning:  #177-D: function "blink_entry"  was declared but never referenced
-  static void blink_entry()
-..\User\main.c(84): warning:  #177-D: function "hcsr_entry"  was declared but never referenced
-  static void hcsr_entry()
-..\User\main.c(104): warning:  #177-D: function "hc05_entry"  was declared but never referenced
-  static void hc05_entry()
-..\User\main.c(145): warning:  #177-D: function "encoder_entry"  was declared but never referenced
-  static void encoder_entry()
-..\User\main.c(158): warning:  #177-D: function "motor_entry"  was declared but never referenced
-  static void motor_entry()
-..\User\main.c(168): warning:  #177-D: function "oled_entry"  was declared but never referenced
-  static void oled_entry()
-..\User\main.c: 17 warnings, 0 errors
-compiling lcd_f.c...
-compiling gpio.c...
-..\Lib\ti\devices\msp432p4xx\driverlib\gpio.c(52): warning:  #1296-D: extended constant initialiser used
-      (uint32_t)P1,
-..\Lib\ti\devices\msp432p4xx\driverlib\gpio.c(53): warning:  #1296-D: extended constant initialiser used
-      (uint32_t)P1+1,
-..\Lib\ti\devices\msp432p4xx\driverlib\gpio.c(54): warning:  #1296-D: extended constant initialiser used
-      (uint32_t)P3,
-..\Lib\ti\devices\msp432p4xx\driverlib\gpio.c(55): warning:  #1296-D: extended constant initialiser used
-      (uint32_t)P3+1,
-..\Lib\ti\devices\msp432p4xx\driverlib\gpio.c(56): warning:  #1296-D: extended constant initialiser used
-      (uint32_t)P5,
-..\Lib\ti\devices\msp432p4xx\driverlib\gpio.c(57): warning:  #1296-D: extended constant initialiser used
-      (uint32_t)P5+1,
-..\Lib\ti\devices\msp432p4xx\driverlib\gpio.c(58): warning:  #1296-D: extended constant initialiser used
-      (uint32_t)P7,
-..\Lib\ti\devices\msp432p4xx\driverlib\gpio.c(59): warning:  #1296-D: extended constant initialiser used
-      (uint32_t)P7+1,
-..\Lib\ti\devices\msp432p4xx\driverlib\gpio.c(60): warning:  #1296-D: extended constant initialiser used
-      (uint32_t)P9,
-..\Lib\ti\devices\msp432p4xx\driverlib\gpio.c(61): warning:  #1296-D: extended constant initialiser used
-      (uint32_t)P9+1,
-..\Lib\ti\devices\msp432p4xx\driverlib\gpio.c(62): warning:  #1296-D: extended constant initialiser used
-      (uint32_t)PJ
-..\Lib\ti\devices\msp432p4xx\driverlib\gpio.c: 11 warnings, 0 errors
-compiling mpu.c...
-compiling pmap.c...
-compiling interrupt.c...
-compiling pcm.c...
-compiling pss.c...
-compiling i2c.c...
-compiling reset.c...
-compiling ref_a.c...
-compiling rtc_c.c...
-assembling startup_msp432p401r_uvision.s...
-compiling board.c...
-compiling spi.c...
-compiling cpuport.c...
-assembling context_rvds.S...
-compiling sysctl_a.c...
-compiling timer32.c...
-compiling cpu.c...
-compiling clock.c...
-compiling sysctl.c...
-compiling components.c...
-compiling idle.c...
-compiling timer_a.c...
-compiling uart.c...
-compiling wdt_a.c...
-compiling memheap.c...
-compiling mempool.c...
-compiling systick.c...
-compiling irq.c...
-compiling object.c...
-compiling mem.c...
-compiling scheduler.c...
-compiling system_msp432p401r.c...
-compiling kservice.c...
-compiling ipc.c...
-compiling thread.c...
-compiling timer.c...
-compiling slab.c...
-compiling HC-SR04.c...
-compiling Motor.c...
-..\User\Driver\Motor.h(12): warning:  #1295-D: Deprecated declaration init_motor - give arg types
-  void init_motor();
-..\User\Driver\Motor.h(13): warning:  #1295-D: Deprecated declaration set_pwm_trail - give arg types
-  void set_pwm_trail();
-..\User\Driver\Motor.c(41): warning:  #1-D: last line of file ends without a newline
-  }
-..\User\Driver\Motor.c: 3 warnings, 0 errors
-compiling oled.c...
-compiling Serial.c...
-compiling Interrupt.c...
-..\User\Driver\Encoder.h(14): warning:  #1295-D: Deprecated declaration init_encoder_left - give arg types
-  void init_encoder_left();
-..\User\Driver\Encoder.h(15): warning:  #1295-D: Deprecated declaration init_encoder_right - give arg types
-  void init_encoder_right();
-..\User\Driver\Encoder.h(17): warning:  #1-D: last line of file ends without a newline
-  int read_encoder(uint8_t side);
-..\User\Driver\Interrupt.c(212): warning:  #1-D: last line of file ends without a newline
-  }
-..\User\Driver\Interrupt.c: 4 warnings, 0 errors
-compiling Encoder.c...
-..\User\Driver\Encoder.h(14): warning:  #1295-D: Deprecated declaration init_encoder_left - give arg types
-  void init_encoder_left();
-..\User\Driver\Encoder.h(15): warning:  #1295-D: Deprecated declaration init_encoder_right - give arg types
-  void init_encoder_right();
-..\User\Driver\Encoder.h(17): warning:  #1-D: last line of file ends without a newline
-  int read_encoder(uint8_t side);
-..\User\Driver\Encoder.c: 3 warnings, 0 errors
-compiling HC-05.c...
-..\User\Driver\HC-05.h(13): warning:  #1295-D: Deprecated declaration connectDevice - give arg types
-  bool connectDevice();
-..\User\Driver\HC-05.h(15): warning:  #1-D: last line of file ends without a newline
+..\User\Driver\TCRT5000.h(18): warning:  #1295-D: Deprecated declaration init_TCRT - give arg types
+  void init_TCRT();
+..\User\Driver\TCRT5000.h(19): warning:  #1295-D: Deprecated declaration read_TCRT - give arg types
+  void read_TCRT();
+..\User\Driver\TCRT5000.h(21): warning:  #1-D: last line of file ends without a newline
+  #endif // !__TCRT5000.h
+..\User\Driver\Semaphore.h(8): warning:  #1-D: last line of file ends without a newline
   #endif
-..\User\Driver\HC-05.c: 2 warnings, 0 errors
-compiling Delay.c...
+..\User\main.c(114): warning:  #550-D: variable "connected"  was set but never used
+  	bool connected=false;
+..\User\main.c(155): warning:  #167-D: argument of type "void (*)()" is incompatible with parameter of type "void (*)(void *)"
+  	rt_timer_t EncoderTimer=rt_timer_create("EncoderTimer",sendEncoderBack,RT_NULL,100,RT_TIMER_FLAG_PERIODIC);
+..\User\main.c(208): warning:  #167-D: argument of type "void (*)()" is incompatible with parameter of type "void (*)(void *)"
+  	rt_timer_t ADCSampleTimer=rt_timer_create("ADCSampleTimer",sampleVoltage,RT_NULL,100,RT_TIMER_FLAG_PERIODIC);
+..\User\main.c(217): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			Voltage=Voltage/BITS*3.3;
+..\User\main.c(313): warning:  #167-D: argument of type "void (*)()" is incompatible with parameter of type "void (*)(void *)"
+  	rt_timer_t control_timer=rt_timer_create("Control",control,RT_NULL,100,RT_TIMER_FLAG_PERIODIC);
+..\User\main.c(417): warning:  #1-D: last line of file ends without a newline
+  }
+..\User\main.c(79): warning:  #177-D: function "blink_entry"  was declared but never referenced
+  static void blink_entry()
+..\User\main.c(90): warning:  #177-D: function "hcsr_entry"  was declared but never referenced
+  static void hcsr_entry()
+..\User\main.c(110): warning:  #177-D: function "hc05_entry"  was declared but never referenced
+  static void hc05_entry()
+..\User\main.c(151): warning:  #177-D: function "encoder_entry"  was declared but never referenced
+  static void encoder_entry()
+..\User\main.c(164): warning:  #177-D: function "motor_entry"  was declared but never referenced
+  static void motor_entry()
+..\User\main.c(174): warning:  #177-D: function "oled_entry"  was declared but never referenced
+  static void oled_entry()
+..\User\main.c(200): warning:  #177-D: function "tcrt_entry"  was declared but never referenced
+  static void tcrt_entry()
+..\User\main.c(246): warning:  #177-D: function "control_trail_entry"  was declared but never referenced
+  static void control_trail_entry()
+..\User\main.c(259): warning:  #177-D: function "display_entry"  was declared but never referenced
+  static void display_entry()
+..\User\main.c(309): warning:  #177-D: function "control_entry"  was declared but never referenced
+  static void control_entry()
+..\User\main.c: 27 warnings, 0 errors
 linking...
-Program Size: Code=16072 RO-data=4596 RW-data=228 ZI-data=6228  
-".\Objects\template.axf" - 0 Error(s), 40 Warning(s).
+Program Size: Code=16976 RO-data=4764 RW-data=184 ZI-data=6224  
+".\Objects\template.axf" - 0 Error(s), 34 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -187,7 +115,7 @@ Package Vendor: TexasInstruments
   D:\Environment\keil\ARM\PACK\TexasInstruments\MSP432P4xx_DFP\3.2.6\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:07
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

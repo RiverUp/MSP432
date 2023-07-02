@@ -2,6 +2,9 @@
 #include <ti/devices/msp432p4xx/driverlib/driverlib.h>
 #include "HC-SR04.h"
 #include "Encoder.h"
+#include "TCRT5000.h"
+#include "Serial.h"
+#include "stdio.h"
 
 
 //检测到上升沿触发中断
@@ -209,4 +212,16 @@ void TA0_N_IRQHandler(void)
 		//发送信号量，告知线程获得测量
 		rt_sem_release(AbleToConvert);
 	}
+}
+
+void T32_INT1_IRQHandler(void)
+{
+  MAP_Timer32_clearInterruptFlag(TIMER32_BASE);
+	triggerCounter++;
+	if(triggerCounter==10)
+	{
+		triggerCounter=0;
+		TriggerFlag=true;
+	}
+	
 }

@@ -56,4 +56,7 @@
 .\objects\main.o: ..\User\Driver\oled.h
 .\objects\main.o: D:\Environment\keil\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: ..\User\Driver\Motor.h
+.\objects\main.o: ..\User\Driver\TCRT5000.h
+.\objects\main.o: ..\User\Driver\Semaphore.h
+.\objects\main.o: ..\User\Driver\Filter.h
 .\objects\main.o: D:\Environment\keil\ARM\ARMCC\Bin\..\include\string.h

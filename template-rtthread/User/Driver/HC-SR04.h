@@ -8,6 +8,8 @@
 
 extern uint32_t countValue;
 extern rt_sem_t AbleToConvert;
+extern uint32_t triggerCounter;
+extern bool TriggerFlag;
 
 //≥ı ºªØ
 void init_hc_sr04(void);

@@ -22,7 +22,7 @@ void init_encoder_right()
 int read_encoder(uint8_t side)
 {
 	int coder_value=0;
-	if(side)
+	if(!side)
 	{
 		coder_value=encoder_right;
 		encoder_right=0;

@@ -13,5 +13,5 @@ extern int encoder_right;
 
 void init_encoder_left();
 void init_encoder_right();
-//side->0:×ó£»1£ºÓÒ
+//side->0:ÓÒ£»1£º×ó
 int read_encoder(uint8_t side);

@@ -42,3 +42,5 @@
 .\objects\motor.o: ..\Lib\ti/devices/msp432p4xx/driverlib/wdt_a.h
 .\objects\motor.o: ..\Lib\ti/devices/msp432p4xx/driverlib/sysctl.h
 .\objects\motor.o: ..\Lib\ti/devices/msp432p4xx/driverlib/flash.h
+.\objects\motor.o: D:\Environment\keil\ARM\ARMCC\Bin\..\include\math.h
+.\objects\motor.o: D:\Environment\keil\ARM\ARMCC\Bin\..\include\stdlib.h

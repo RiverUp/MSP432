@@ -692,6 +692,16 @@
               <FileType>1</FileType>
               <FilePath>..\User\Driver\oled.c</FilePath>
             </File>
+            <File>
+              <FileName>TCRT5000.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Driver\TCRT5000.c</FilePath>
+            </File>
+            <File>
+              <FileName>Filter.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\User\Driver\Filter.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

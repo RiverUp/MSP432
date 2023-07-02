@@ -58,6 +58,9 @@
 #include "Encoder.h"
 #include "oled.h"
 #include "Motor.h"
+#include "TCRT5000.h"
+#include "Semaphore.h"
+#include "Filter.h"
 #include "stdio.h"
 #include "stdbool.h"
 #include "string.h"
@@ -68,6 +71,9 @@
 //信号量
 //rt_sem_t AbleToConvert;
 //extern uint32_t countValue;
+
+float Voltage_filted;
+
 
 //红灯闪烁的线程
 static void blink_entry()
@@ -179,7 +185,65 @@ static void oled_entry()
 	}
 }
 
-static void control_entry()
+
+
+void sampleVoltage()
+{
+	read_TCRT();
+	if(processTCRTADCData->value==0)
+	{
+		GPIO_toggleOutputOnPin(GPIO_PORT_P1,GPIO_PIN0);
+		rt_sem_release(processTCRTADCData);
+	}
+}
+
+static void tcrt_entry()
+{
+	init();
+	OLED_Init();
+	char text[20];
+	init_TCRT();
+	processTCRTADCData=rt_sem_create("processTCRTADCData",0,RT_IPC_FLAG_PRIO);
+	GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN0);
+	rt_timer_t ADCSampleTimer=rt_timer_create("ADCSampleTimer",sampleVoltage,RT_NULL,100,RT_TIMER_FLAG_PERIODIC);
+	if(ADCSampleTimer!=RT_NULL)
+	{
+		rt_timer_start(ADCSampleTimer);
+	}
+	while(1)
+	{
+		if(rt_sem_take(processTCRTADCData,RT_WAITING_FOREVER)==RT_EOK)
+		{
+			Voltage=Voltage/BITS*3.3;
+			Voltage_filted=Kalman_TCRT(Voltage);
+			sprintf(text,"tcrt:%.2f     ",Voltage_filted);
+			sendText(text);
+//			if(Voltage_filted<THRESHOLD1)
+//			{
+//				state=White;
+//			}
+//			else if(Voltage_filted>THRESHOLD2)
+//			{
+//				state=Off_Ground;
+//			}
+//			else
+//			{
+//				state=Black;
+//			}
+//			
+//			if(SendDatSem->value==0)
+//			{
+//				rt_sem_release(SendDatSem);
+//			}
+//			
+			
+		}	
+	}
+
+}
+
+
+static void control_trail_entry()
 {
 	init_encoder_left();
 	init_encoder_right();
@@ -191,6 +255,7 @@ static void control_entry()
 	}
 }
 
+
 static void display_entry()
 {
 	init();
@@ -198,36 +263,120 @@ static void display_entry()
 	OLED_Clear();
 	char text1[20];
 	char text2[20];
+	init_encoder_left();
+	init_encoder_right();
+	
 	while(1)
 	{
 		int encoder_left,encoder_right;
 		encoder_left=read_encoder(0);
 		encoder_right=read_encoder(1);
-		sprintf(text1,"r:%2d",encoder_right);
-		sprintf(text2,"l:%2d",encoder_left);
+		sprintf(text1,"r:%2d ",encoder_right);
+		sprintf(text2,"l:%2d ",encoder_left);
 		OLED_ShowString(0,0,(unsigned char *)text1);
 		OLED_ShowString(0,2,(unsigned char *)text2);
+//		sprintf(text1,"dat:%.2f",Voltage_filted);
+//		OLED_ShowString(0,0,(unsigned char *)text1);
 	}
 	
 }
+
+void control()
+{
+//	rt_sem_release(clearEncoder);
+//	int encoder_left,encoder_right;
+//	encoder_left=read_encoder(1);
+//	encoder_right=read_encoder(0);
+	
+	GPIO_toggleOutputOnPin(GPIO_PORT_P1,GPIO_PIN0);
+	
+//	countTrail++;
+//	
+//	if(countTrail==100)
+//	{
+//		GPIO_toggleOutputOnPin(GPIO_PORT_P1,GPIO_PIN0);
+//		countTrail=0;
+//	}
+	
+
+//	int pwma=velocity_left(encoder_left)+turn();
+//	int pwmb=velocity_right(encoder_right)-turn();
+//	pwma=limit_pwm(pwma,8000,-8000);
+//	pwmb=limit_pwm(pwmb,8000,-8000);
+//	set_pwm(pwma,pwmb);
+}
+
+static void control_entry()
+{
+	GPIO_setAsOutputPin(GPIO_PORT_P1,GPIO_PIN0);
+	GPIO_setOutputLowOnPin(GPIO_PORT_P1,GPIO_PIN0);
+	rt_timer_t control_timer=rt_timer_create("Control",control,RT_NULL,100,RT_TIMER_FLAG_PERIODIC);
+	if(control_timer!=RT_NULL)
+	{
+		rt_timer_start(control_timer); 
+	}
+}
+
+
+
+
 int main(void)
 {
 	WDT_A_hold(WDT_A_BASE);
 	Interrupt_enableMaster();
+	
+//	Timer32_initModule(TIMER32_BASE,TIMER32_PRESCALER_1,TIMER32_32BIT,TIMER32_PERIODIC_MODE);
+//	Interrupt_enableInterrupt(INT_T32_INT1);
+//	Timer32_setCount(TIMER32_BASE,120000);//10ms
+//  Timer32_enableInterrupt(TIMER32_BASE);
+//  Timer32_startTimer(TIMER32_BASE, false);
+	
 	Delay_Init();
   initSerial();
 	
-	rt_thread_t control_thread=rt_thread_create("control",control_entry,RT_NULL,1024,25,50);
-	if(control_thread!=RT_NULL)
+	
+	init();
+	OLED_Init();
+	char text[20];
+	init_TCRT();
+	init_hc_sr04();
+	
+	
+	while(1)
 	{
-		rt_thread_startup(control_thread);
+		Interrupt_enableInterrupt(INT_PORT2);
+			trigger_measure();
+		sprintf(text,"%f\r\n",read_hc_sr04(countValue));
+		sendText(text);
+		OLED_ShowString(0,0,(unsigned char *)text);
+		
+//		Voltage=adcV/BITS*3.3;
+//		sprintf(text,"v:%.2f     ",Voltage);
+//		OLED_ShowString(0,0,(unsigned char *)text);
 	}
+//	rt_thread_t control_thread=rt_thread_create("Control",control_entry,RT_NULL,1024,25,25); 
+//	if(control_thread!=RT_NULL)
+//	{
+//		rt_thread_startup(control_thread);
+//	}
+	
+	
+//	rt_thread_t control_trail_thread=rt_thread_create("control",control_trail_entry,RT_NULL,1024,25,50);
+//	if(control_trail_thread!=RT_NULL)
+//	{
+//		rt_thread_startup(control_trail_thread);
+//	}
 
-	rt_thread_t display_thread=rt_thread_create("display",display_entry,RT_NULL,1024,25,50);
-	if(display_thread!=RT_NULL)
-	{
-		rt_thread_startup(display_thread);
-	}
+//	rt_thread_t tcrt_thread=rt_thread_create("tcrt",tcrt_entry,RT_NULL,1024,24,5);
+//	if(tcrt_thread!=RT_NULL)
+//	{
+//		rt_thread_startup(tcrt_thread);
+//	}
+//	rt_thread_t display_thread=rt_thread_create("display",display_entry,RT_NULL,1024,25,50);
+//	if(display_thread!=RT_NULL)
+//	{
+//		rt_thread_startup(display_thread);
+//	}
 	//创建并运行Oled线程
 //	rt_thread_t oled_thread=rt_thread_create("OLED",oled_entry,RT_NULL,1024,25,50);
 //	if(oled_thread!=RT_NULL)
@@ -260,63 +409,9 @@ int main(void)
 //	}
 	
 	
-//	blink_thread=rt_thread_create("blink",blink_entry,RT_NULL,1024,25,5);
+//	rt_thread_t blink_thread=rt_thread_create("blink",blink_entry,RT_NULL,1024,25,5);
 //	if(blink_thread!=RT_NULL)
 //	{
 //		rt_thread_startup(blink_thread);
 //	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//int main(void)
-//{
-//    volatile uint32_t i;
-
-//    // Stop watchdog timer
-//    WDT_A_hold(WDT_A_BASE);
-
-//    // Set P1.0 to output direction
-//    GPIO_setAsOutputPin(
-//        GPIO_PORT_P1,
-//        GPIO_PIN0
-//        );
-
-//    while(1)
-//    {
-//        // Toggle P1.0 output
-//        GPIO_toggleOutputOnPin(
-//            GPIO_PORT_P1,
-//			GPIO_PIN0
-//			);
-
-//        // Delay
-//        for(i=100000; i>0; i--);
-//    }
-//}

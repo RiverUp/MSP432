@@ -50,3 +50,6 @@
 .\objects\interrupt_1.o: ..\Lib\ti/devices/msp432p4xx/driverlib/flash.h
 .\objects\interrupt_1.o: ..\User\Driver\HC-SR04.h
 .\objects\interrupt_1.o: ..\User\Driver\Encoder.h
+.\objects\interrupt_1.o: ..\User\Driver\TCRT5000.h
+.\objects\interrupt_1.o: ..\User\Driver\Serial.h
+.\objects\interrupt_1.o: D:\Environment\keil\ARM\ARMCC\Bin\..\include\stdio.h

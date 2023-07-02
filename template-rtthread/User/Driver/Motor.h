@@ -11,4 +11,5 @@ p5.5->BIN2
 
 void init_motor();
 void set_pwm_trail();
+void set_pwm(int motor_left,int motor_right);
 
